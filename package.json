@@ -1,0 +1,24 @@
+{
+  "name": "express-jwt-auth-starter",
+  "version": "1.0.0",
+  "description": "A starter for express that include authentication with json web tokens",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norbusonam/express-jwt-auth-starter.git"
+  },
+  "author": "Norbu Sonam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/norbusonam/express-jwt-auth-starter/issues"
+  },
+  "homepage": "https://github.com/norbusonam/express-jwt-auth-starter#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
