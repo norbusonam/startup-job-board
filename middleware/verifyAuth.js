@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
 
   if (authorizationToken) {
     const token = authorizationToken.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'REPLACE_THIS_SECRET')
+    const decodedToken = jwt.verify(token, proccess.env.TOKEN_SECRET)
     if (decodedToken && decodedToken.userId) {
       return next();
     }

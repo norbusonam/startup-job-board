@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -8,22 +9,24 @@ router.post('/login', async (req, res) => {
 
   const { email, password } = req.body;
 
-  // ======= TODO: get the user w/email ========
-  const user = {
-    email: 'name@example.com  ',
-    password: '$2b$10$6ieO.FytJ3LcH9juGU6oMeHYm.RR4lhEODdDFr4SIJsgrN2PgoicK', // 'password'
-    id: '2',
-  };
-  // ===========================================
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).send({
+      msg: 'Email does not exist'
+    })
+  }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
-    return res.sendStatus(401);
+    return res.status(404).send({
+      msg: 'Wrong password'
+    })
   }
 
   const token = jwt.sign({
     userId: user.id
-  }, 'REPLACE_THIS_SECRET');
+  }, proccess.env.TOKEN_SECRET);
 
   return res.send({
     token,
@@ -38,17 +41,14 @@ router.post('/signup', async (req, res) => {
 
   let hashedPassword = await bcrypt.hash(password, 10);
 
-  // ========== TODO: create the user ==========
-  const newUser = {
+  const newUser = await User.create({ 
     email,
-    password: hashedPassword,
-    id: '1',
-  };
-  // ===========================================
+    password: hashedPassword
+   });
 
   const token = jwt.sign({
     userId: newUser.id
-  }, 'REPLACE_THIS_SECRET');
+  }, proccess.env.TOKEN_SECRET);
 
   return res.status(201).send({
     token,
